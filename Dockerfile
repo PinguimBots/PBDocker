@@ -21,7 +21,7 @@ RUN pip3 install meson
 ENV PATH=/usr/local/python3/bin:$PATH
 
 RUN git clone https://github.com/PinguimBots/ssl-client.git && \
-    cd ssl-client 
+    cd ssl-client && git pull
 
 WORKDIR /ssl-client
 
@@ -30,9 +30,10 @@ ENV CXX=g++-8
 RUN meson build && \
     meson compile -C build 
 
-ENV TEAM=black
+ENV TEAM=black INADDRESS=224.0.0.1 REFADDRESS=224.0.0.1
 
-CMD ./build/pbssl -t $TEAM
+
+CMD ./build/pbssl -t $TEAM --in-address $INADDRESS --ref-address $REFADDRESS
 
 
 
